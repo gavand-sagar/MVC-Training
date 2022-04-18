@@ -1,8 +1,52 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model Lab1.ViewModels.UserListViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<style>
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        height: 30px;
+        width: 300px;
+        text-align: center;
+    }
+</style>
+
+
+<form asp-controller="Home" asp-action="AddUser" method="post">
+    <input type="text" placeholder="Enter Name" name="Name" />
+    <input type="text" placeholder="Enter Age" name="Age" />
+    <input type="text" placeholder="Enter City" name="City" />
+    <input type="submit" value="Post" />
+</form>
+
+
+<span>Current Login : @Model.CurrentUser</span>
+<span>Sign Out From : @Model.CurrentUser</span>
+
+
+
+<hr />
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            foreach (var item in Model.users)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Age</td>
+                    <td>@item.City</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
