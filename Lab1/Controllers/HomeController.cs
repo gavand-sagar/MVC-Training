@@ -17,41 +17,51 @@ namespace Lab1.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult index()
         {
-
-            // jsut to provide form to add user form
-            //return View();
-            //dont require the rest of code
-
-
-
-            // to provide list of dummy records //
-            //UserListViewModel userListVm = new UserListViewModel();
-            //userListVm.users.Add(new UserViewModel() { Name = "Sagar", Age = "50", City = "Mumbai" });
-            //userListVm.users.Add(new UserViewModel());
-            //userListVm.users.Add(new UserViewModel());
-            //userListVm.users.Add(new UserViewModel() { Name = "Mike", Age = "55", City = "London" });
-
-
             // fetching from warehouse ; in this case its a static file
             UserListViewModel userListVm = new UserListViewModel();
+
             userListVm.users = UserManager.users;
 
             userListVm.CurrentUser = "Mike";
 
             return View("Index", userListVm);
+
+
+            //return View("Index");
         }
 
-        public IActionResult AddUser(UserViewModel user)
+        public IActionResult AddUser(UserViewModel sadfsadfsadf)
         {
             //data base insersion may be here
-            UserManager.users.Add(user);
+            //UserManager.users.Add(user);
+            UserManager.AddUser(sadfsadfsadf);
 
             //UserListViewModel userListVm = new UserListViewModel();
             //userListVm.users = UserManager.users;
 
             return View();
+        }
+
+
+        public IActionResult Edit(int id)
+        {
+            UserListViewModel userListVm = new UserListViewModel();
+            
+            userListVm.users = UserManager.users;
+
+            userListVm.user = UserManager.users.Where(x => x.Id == id).FirstOrDefault();
+
+
+            return View("Index", userListVm);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            UserManager.DeleteUser(id);
+
+            return View("Delete");
         }
 
         public IActionResult Privacy()

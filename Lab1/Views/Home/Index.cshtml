@@ -13,15 +13,20 @@
 
 
 <form asp-controller="Home" asp-action="AddUser" method="post">
-    <input type="text" placeholder="Enter Name" name="Name" />
-    <input type="text" placeholder="Enter Age" name="Age" />
-    <input type="text" placeholder="Enter City" name="City" />
+
+    <input type="text" placeholder="Enter Name" name="Name" value="@Model.user.Name" />
+    <input type="text" placeholder="Enter Age" name="Age" value="@Model.user.Age" />
+    <input type="text" placeholder="Enter City" name="City" value="@Model.user.City" />
+
+    <input type="hidden" placeholder="Enter Id" name="Id" value="@Model.user.Id" />
+
     <input type="submit" value="Post" />
 </form>
 
 
 <span>Current Login : @Model.CurrentUser</span>
 <span>Sign Out From : @Model.CurrentUser</span>
+
 
 
 
@@ -33,6 +38,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>City</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -44,6 +50,10 @@
                     <td>@item.Name</td>
                     <td>@item.Age</td>
                     <td>@item.City</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id" >Edit</a>
+                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
                 </tr>
             }
         }
