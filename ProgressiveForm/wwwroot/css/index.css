@@ -1,0 +1,7 @@
+﻿input {
+    color: blue;
+}
+
+    input[name="NextActivePage"] {
+        background-color: orange;
+    }

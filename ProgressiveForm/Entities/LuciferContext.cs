@@ -22,6 +22,7 @@ namespace ProgressiveForm.Entities
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<Type> Types { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Users2> Users2s { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -90,6 +91,25 @@ namespace ProgressiveForm.Entities
                     .HasForeignKey(d => d.TypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Users_Types");
+            });
+
+            modelBuilder.Entity<Users2>(entity =>
+            {
+                entity.ToTable("Users2");
+
+                entity.Property(e => e.CurrentDate).HasColumnType("date");
+
+                entity.Property(e => e.FirstName).HasMaxLength(50);
+
+                entity.Property(e => e.LastName).HasMaxLength(50);
+
+                entity.Property(e => e.LicenseExpiration).HasColumnType("date");
+
+                entity.HasOne(d => d.TypeNavigation)
+                    .WithMany(p => p.Users2s)
+                    .HasForeignKey(d => d.Type)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Users2_Types");
             });
 
             OnModelCreatingPartial(modelBuilder);

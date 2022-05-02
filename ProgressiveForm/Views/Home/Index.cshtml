@@ -3,54 +3,66 @@
     ViewData["Title"] = "Home Page";
 }
 
+<link rel="stylesheet" href="~/css/index.css"/>
+
 <div class="container">
     <form asp-controller="Home" asp-action="PostForm" method="post">
         <div class="row">
-            <input name="ActivePage" type="submit" value="Basic" class="col-4" />
 
-            <input name="ActivePage" type="submit" value="Middle" class="col-4" />
+            <input type="hidden" name="CurrentActivePage" value="@Model.CurrentActivePage" />
 
-            <input name="ActivePage" type="submit" value="Final" class="col-4" />
+            <input name="NextActivePage" type="submit" value="Basic" class="col-4" />
+
+            <input name="NextActivePage" type="submit" value="Middle" class="col-4" />
+
+            <input name="NextActivePage" type="submit" value="Final" class="col-4" @(Model.NextActivePage == "Basic" ? "disabled" : "") />
 
         </div>
 
 
         <div class="row">
 
-            <div class="col-12" style="@(Model.ActivePage == "Basic" ? "" : "display:none")">
+            <div class="col-12" style="@(Model.NextActivePage == "Basic" ? "" : "display:none")">
 
-                <div class="form-group">
-                    <label for="FirstName">First Name:</label>
-                    <input id="FirstName" type="text" class="form-control" name="FirstName" placeholder="First Name" value="@Model.FirstName" />
-                    <span class="text-danger" asp-validation-for="FirstName"></span>
-                </div>
+                <div style="height:300px;width:50%">
 
-                <div class="form-group">
-                    <label for="LastName">Last Name:</label>
-                    <input id="LastName" type="text" class="form-control" name="LastName" placeholder="Last Name" value="@Model.LastName" />
+                    <div class="form-group">
+                        <label for="FirstName">First Name:</label>
+                        <input id="FirstName" type="text" class="form-control" name="FirstName" placeholder="First Name" value="@Model.FirstName" />
+                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LastName">Last Name:</label>
+                        <input id="LastName" type="text" class="form-control" name="LastName" placeholder="Last Name" value="@Model.LastName" />
+                    </div>
+
+                    <input name="ActivePage" type="submit" value="Middle" class="col-4" />
                 </div>
 
             </div>
 
 
-            <div class="col-12" style="@(Model.ActivePage == "Middle" ? "" : "display:none")">
+            <div class="col-12" style="@(Model.NextActivePage == "Middle" ? "" : "display:none")">
 
 
 
                 <div class="form-group">
                     <label for="CurrentDate">Current Date:</label>
                     <input id="CurrentDate" type="date" class="form-control" name="CurrentDate" placeholder="Current Date" value="@Model.CurrentDate" />
+                    <span class="text-danger" asp-validation-for="CurrentDate"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="LicenseExpiration">License Expiration:</label>
                     <input id="LicenseExpiration" type="date" class="form-control" name="LicenseExpiration" placeholder="License Expiration" value="@Model.LicenseExpiration" />
+                    <span class="text-danger" asp-validation-for="LicenseExpiration"></span>
                 </div>
 
             </div>
 
 
-            <div class="col-12" style="@(Model.ActivePage == "Final" ? "" : "display:none")">
+            <div class="col-12" style="@(Model.NextActivePage == "Final" ? "" : "display:none")">
 
 
                 <div class="form-group">
@@ -71,8 +83,22 @@
                     <input id="NumberOfCopies" type="number" class="form-control" name="NumberOfCopies" placeholder="Number Of Copies" value="@Model.NumberOfCopies" />
                 </div>
 
-                <input class="col-6" type="submit" name="ActivePage" value="Save" />
+                <input class="col-6" type="submit" name="NextActivePage" value="Save" />
 
+            </div>
+
+            <div style="@(Model.IsAlreadyPresent ? "" : "display:none")">
+
+
+                <h2>There are already recor presnet</h2>
+
+
+                @foreach (var item in Model.OldRecords)
+                {
+                    <div>@item.LicenseExpiration <button type="submit" name="NextActivePage" value="@item.Id">Override previous</button></div>
+                }
+
+                <button>Do nothing</button>
             </div>
 
 
@@ -81,4 +107,9 @@
 
     </form>
 
+
+
+
+
 </div>
+
